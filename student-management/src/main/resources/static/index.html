@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduTrack — Student Management System</title>
+  <meta name="description" content="EduTrack is a modern student management system to add, view, update and delete student records with ease." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      </div>
+      <span class="logo-text">EduTrack</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" id="nav-dashboard" onclick="showSection('dashboard')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" id="nav-students" onclick="showSection('students')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>All Students</span>
+      </a>
+      <a href="#" class="nav-item" id="nav-add" onclick="showSection('add')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <span>Add Student</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-info">
+        <div class="avatar">YS</div>
+        <div>
+          <p class="footer-name">Yograj Sikka</p>
+          <p class="footer-role">Administrator</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="breadcrumb" id="breadcrumb">Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <div class="search-bar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="globalSearch" placeholder="Search students…" oninput="filterStudents(this.value)" />
+        </div>
+        <div class="notif-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge">3</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ─────────────────────── DASHBOARD SECTION ─────────────────────── -->
+    <section class="section" id="section-dashboard">
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">Welcome back! 👋</h1>
+          <p class="section-subtitle">Here's an overview of your student records</p>
+        </div>
+        <button class="btn btn-primary" onclick="showSection('add')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Student
+        </button>
+      </div>
+
+      <!-- STATS CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card stat-blue">
+          <div class="stat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">Total Students</p>
+            <h2 class="stat-value" id="stat-total">0</h2>
+            <p class="stat-change">Enrolled students</p>
+          </div>
+        </div>
+        <div class="stat-card stat-purple">
+          <div class="stat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">Courses</p>
+            <h2 class="stat-value" id="stat-courses">0</h2>
+            <p class="stat-change">Unique programs</p>
+          </div>
+        </div>
+        <div class="stat-card stat-green">
+          <div class="stat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">Avg. Age</p>
+            <h2 class="stat-value" id="stat-age">0</h2>
+            <p class="stat-change">Years old</p>
+          </div>
+        </div>
+        <div class="stat-card stat-orange">
+          <div class="stat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">Latest Added</p>
+            <h2 class="stat-value stat-value-sm" id="stat-latest">—</h2>
+            <p class="stat-change">Most recent</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT STUDENTS TABLE (dashboard preview) -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Recent Students</h2>
+          <button class="btn btn-ghost" onclick="showSection('students')">View all →</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="dashboard-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Age</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-tbody">
+              <tr class="empty-row"><td colspan="6">
+                <div class="empty-state">
+                  <div class="empty-icon">📚</div>
+                  <p>No students yet. <a href="#" onclick="showSection('add')">Add one now!</a></p>
+                </div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────── ALL STUDENTS SECTION ─────────────────────── -->
+    <section class="section hidden" id="section-students">
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title">All Students</h1>
+          <p class="section-subtitle">Manage and view complete student records</p>
+        </div>
+        <button class="btn btn-primary" onclick="showSection('add')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Student
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="filter-bar">
+            <div class="search-bar inline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="tableSearch" placeholder="Search by name, email, course…" oninput="filterStudents(this.value)" />
+            </div>
+            <select id="courseFilter" class="select-filter" onchange="filterByCourse(this.value)">
+              <option value="">All Courses</option>
+            </select>
+          </div>
+          <span class="record-count" id="record-count">0 records</span>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="students-table">
+            <thead>
+              <tr>
+                <th onclick="sortTable('id')" class="sortable">ID <span class="sort-arrow">↕</span></th>
+                <th onclick="sortTable('name')" class="sortable">Name <span class="sort-arrow">↕</span></th>
+                <th onclick="sortTable('email')" class="sortable">Email <span class="sort-arrow">↕</span></th>
+                <th onclick="sortTable('course')" class="sortable">Course <span class="sort-arrow">↕</span></th>
+                <th onclick="sortTable('age')" class="sortable">Age <span class="sort-arrow">↕</span></th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="students-tbody">
+              <tr class="empty-row"><td colspan="6">
+                <div class="empty-state">
+                  <div class="empty-icon">🎓</div>
+                  <p>No student records found.</p>
+                </div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────── ADD/EDIT STUDENT SECTION ─────────────────────── -->
+    <section class="section hidden" id="section-add">
+
+      <div class="section-header">
+        <div>
+          <h1 class="section-title" id="form-title">Add New Student</h1>
+          <p class="section-subtitle" id="form-subtitle">Fill in the details to enroll a student</p>
+        </div>
+      </div>
+
+      <div class="form-layout">
+        <div class="form-card">
+          <div class="form-card-header">
+            <div class="form-avatar" id="form-avatar">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <p class="form-avatar-name" id="form-avatar-name">New Student</p>
+              <p class="form-avatar-sub">Fill in the form below</p>
+            </div>
+          </div>
+
+          <form id="studentForm" onsubmit="handleFormSubmit(event)" novalidate>
+            <input type="hidden" id="studentId" />
+
+            <div class="form-group">
+              <label for="studentName" class="form-label">Full Name <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input type="text" id="studentName" class="form-input" placeholder="e.g. Yograj Sikka" required oninput="updateFormAvatar()" />
+              </div>
+              <span class="field-error" id="err-name"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="studentEmail" class="form-label">Email Address <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <input type="email" id="studentEmail" class="form-input" placeholder="e.g. yograj@example.com" required />
+              </div>
+              <span class="field-error" id="err-email"></span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="studentCourse" class="form-label">Course <span class="required">*</span></label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                  <input type="text" id="studentCourse" class="form-input" placeholder="e.g. Computer Science" required />
+                </div>
+                <span class="field-error" id="err-course"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="studentAge" class="form-label">Age <span class="required">*</span></label>
+                <div class="input-wrapper">
+                  <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <input type="number" id="studentAge" class="form-input" placeholder="e.g. 20" min="5" max="100" required />
+                </div>
+                <span class="field-error" id="err-age"></span>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-ghost" onclick="resetForm()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                Reset
+              </button>
+              <button type="submit" class="btn btn-primary" id="submitBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span id="submitBtnText">Save Student</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- QUICK TIPS -->
+        <div class="tips-card">
+          <h3 class="tips-title">💡 Quick Tips</h3>
+          <ul class="tips-list">
+            <li>Use a valid email format (e.g. name@domain.com)</li>
+            <li>Age must be between 5 and 100</li>
+            <li>Course name supports any program type</li>
+            <li>Student ID is auto-generated</li>
+            <li>All fields are required</li>
+          </ul>
+
+          <div class="tips-divider"></div>
+          <h3 class="tips-title">📋 Recent Courses</h3>
+          <div class="course-pills" id="course-pills">
+            <span class="pill-empty">No courses yet</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─────────────────── MODAL: DELETE CONFIRM ─────────────────── -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <div class="modal-icon modal-icon-danger">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      </div>
+      <h2 class="modal-title">Delete Student?</h2>
+      <p class="modal-body" id="deleteModalBody">This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('deleteModal')">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn" onclick="confirmDelete()">Yes, Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── MODAL: VIEW STUDENT ─────────────────── -->
+  <div class="modal-overlay" id="viewModal">
+    <div class="modal modal-wide">
+      <button class="modal-close" onclick="closeModal('viewModal')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="view-student-header">
+        <div class="view-avatar" id="viewAvatar">YS</div>
+        <div>
+          <h2 class="view-name" id="viewName">—</h2>
+          <p class="view-course" id="viewCourse">—</p>
+        </div>
+      </div>
+      <div class="view-grid">
+        <div class="view-field">
+          <p class="view-label">Student ID</p>
+          <p class="view-value" id="viewId">—</p>
+        </div>
+        <div class="view-field">
+          <p class="view-label">Email</p>
+          <p class="view-value" id="viewEmail">—</p>
+        </div>
+        <div class="view-field">
+          <p class="view-label">Age</p>
+          <p class="view-value" id="viewAge">—</p>
+        </div>
+        <div class="view-field">
+          <p class="view-label">Course</p>
+          <p class="view-value" id="viewCourseField">—</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal('viewModal')">Close</button>
+        <button class="btn btn-primary" id="viewEditBtn" onclick="">Edit Student</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────────── TOAST ─────────────────── -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
